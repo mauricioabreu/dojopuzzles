@@ -26,53 +26,68 @@ func DrawSpiralMatrix(columns int, rows int) [][]int {
 		matrix[i] = make([]int, columns)
 	}
 
-	// Populate matrix
+	// Increment every drawn number
 	inc := 1
+
+	// These variables are used to know from where to start and where to go
 	rowToRight := 0
+	columnToRightStart := 0
+	columnToRightEnd := columns - 1
 	columToDown := columns - 1
+	rowToDownStart := 1
+	rowToDownEnd := rows - 1
 	rowToLeft := rows - 1
+	columnToLeftStart := columns - 1
+	columnToLeftEnd := 0
 	columnToTop := 0
+	rowsToTopStart := rows - 2
+	rowsToTopEnd := 1
+
+	// Initial direction
 	goTo := RIGHT
+
+	// Populate matrix
 	for {
+		// Stop drawing when we get the last number drawn on the matrix
 		if inc >= rows*columns+1 {
 			break
 		}
 
 		if goTo == RIGHT {
-			for c := 0; c < columns; c++ {
-				if matrix[rowToRight][c] == 0 {
-					matrix[rowToRight][c] = inc
-					inc++
-				}
+			for c := columnToRightStart; c <= columnToRightEnd; c++ {
+				matrix[rowToRight][c] = inc
+				inc++
 			}
 			rowToRight++
+			columnToRightStart++
+			columnToRightEnd--
 			goTo = DOWN
 		} else if goTo == DOWN {
-			for r := 1; r < rows; r++ {
-				if matrix[r][columToDown] == 0 {
-					matrix[r][columToDown] = inc
-					inc++
-				}
+			for r := rowToDownStart; r < rowToDownEnd; r++ {
+				matrix[r][columToDown] = inc
+				inc++
 			}
 			columToDown--
+			rowToDownStart++
+			rowToDownEnd--
 			goTo = LEFT
 		} else if goTo == LEFT {
-			for c := columns - 1; c >= 0; c-- {
-				if matrix[rowToLeft][c] == 0 {
-					matrix[rowToLeft][c] = inc
-					inc++
-				}
+			for c := columnToLeftStart; c >= columnToLeftEnd; c-- {
+				matrix[rowToLeft][c] = inc
+				inc++
 			}
 			rowToLeft--
+			columnToLeftStart--
+			columnToLeftEnd++
 			goTo = TOP
 		} else if goTo == TOP {
-			for r := rows - 1; r >= 0; r-- {
-				if matrix[r][columnToTop] == 0 {
-					matrix[r][columnToTop] = inc
-					inc++
-				}
+			for r := rowsToTopStart; r >= rowsToTopEnd; r-- {
+				matrix[r][columnToTop] = inc
+				inc++
 			}
 			columnToTop++
+			rowsToTopStart--
+			rowsToTopEnd++
 			goTo = RIGHT
 		}
 	}
