@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // Direction where to draw
 type Direction int
 
@@ -15,6 +21,20 @@ const (
 )
 
 func main() {
+	columns, _ := strconv.Atoi(os.Args[1])
+	rows, _ := strconv.Atoi(os.Args[2])
+	spiralMatrix := DrawSpiralMatrix(columns, rows)
+	DrawIt(spiralMatrix)
+}
+
+// DrawIt outputs the spiral matrix
+func DrawIt(spiralMatrix [][]int) {
+	for _, r := range spiralMatrix {
+		for _, c := range r {
+			fmt.Printf("%d ", c)
+		}
+		fmt.Println()
+	}
 }
 
 // DrawSpiralMatrix draws a multidimensional matrix
